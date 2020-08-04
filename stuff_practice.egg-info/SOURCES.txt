@@ -1,0 +1,16 @@
+README.rst
+setup.py
+stuff_practice/__init__.py
+stuff_practice.egg-info/PKG-INFO
+stuff_practice.egg-info/SOURCES.txt
+stuff_practice.egg-info/dependency_links.txt
+stuff_practice.egg-info/requires.txt
+stuff_practice.egg-info/top_level.txt
+stuff_practice/core/__init__.py
+stuff_practice/core/config.py
+stuff_practice/core/logging.py
+stuff_practice/lib/__init__.py
+stuff_practice/lib/consumer.py
+stuff_practice/lib/producer.py
+stuff_practice/nlp/__init__.py
+stuff_practice/nlp/nlp.py
