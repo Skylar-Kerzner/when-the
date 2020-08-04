@@ -4,5 +4,6 @@ env = Env()
 env.read_env()
 
 
-with env.prefixed("WHEN_THE_"):
+with env.prefixed(""):
     logging_level = env("LOGGING_LEVEL", "INFO")
+    app_secret_key = env("APP_SECRET_KEY", "vkjhasjkdhdsa")
