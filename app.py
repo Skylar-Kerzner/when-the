@@ -7,7 +7,8 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO
 import jinja2
 
-from stuff_practice.core import config as cfg
+from when_the.core import config as cfg
+from when_the.core.logging import logger
 #import .stuff_practice
 
 app = Flask(__name__)
@@ -21,7 +22,9 @@ def get_hit_count():
     retries = 5
     while True:
         try:
-            return cache.incr('hits')
+            new_count = cache.incr('hits')
+            logger.info(f"Site hit. New count is {new_count}")
+            return new_count
         except redis.exceptions.ConnectionError as exc:
             if retries == 0:
                 raise exc
@@ -32,24 +35,27 @@ def get_hit_count():
 @app.route('/')
 def get_count_page():
     hit_count = get_hit_count()
-    return 'Hello World! I have been seen {} times.\n'.format(hit_count)
-
-
-@app.route('/t/')
-def get_template():
-    hit_count = get_hit_count()
+    # return 'Hello World! I have been seen {} times.\n'.format(4)
     template_values = {'hit_count' : hit_count}
     template = jinja_environment.get_template('session.html')
     return template.render(template_values)
 
 
+@app.route('/t/')
+def get_template():
+    #hit_count = get_hit_count()
+    template_values = {'hit_count' : 2}
+    template = jinja_environment.get_template('session.html')
+    return template.render(template_values)
+
+
 def messageReceived(methods=['GET', 'POST']):
-    print('message was received')
+    logger.info('Callback called from message emit.')
 
 
-@socketio.on('an_event')
+@socketio.on('my event')
 def handle_custom_event(json, methods=['GET', 'POST']):
-    print('received event with json: ' +str(json))
+    logger.info('Received websocket event with json: ' +str(json))
     socketio.emit('my response', json, callback=messageReceived)
 
 
