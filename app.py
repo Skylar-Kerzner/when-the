@@ -1,5 +1,5 @@
 import time
-
+import json
 # print('__file__={0:<35} | __name__={1:<20} | __package__={2:<20}'.format(__file__,__name__,str(__package__)))
 
 import redis
@@ -9,6 +9,7 @@ import jinja2
 
 from when_the.core import config as cfg
 from when_the.core.logging import logger
+from when_the.nlp import nlp
 #import .stuff_practice
 
 app = Flask(__name__)
@@ -53,10 +54,24 @@ def messageReceived(methods=['GET', 'POST']):
     logger.info('Callback called from message emit.')
 
 
+def alter_json(python_dict):
+    #python_dict = json.load(json_obj)
+    try: 
+        user_message = python_dict['message']
+        python_dict['message'] = nlp.alter_message(user_message)
+    except:
+        pass
+    return python_dict
+    #return json.dump(python_dict)
+
+
 @socketio.on('my event')
-def handle_custom_event(json, methods=['GET', 'POST']):
-    logger.info('Received websocket event with json: ' +str(json))
-    socketio.emit('my response', json, callback=messageReceived)
+def handle_custom_event(json_obj, methods=['GET', 'POST']):
+    logger.info('Server received websocket event with json: ' +str(json_obj))
+    altered_json = alter_json(json_obj)
+    logger.info('Server will emit websocket event with json: ' +str(altered_json))
+    socketio.emit('my response', altered_json, callback=messageReceived)
+    return
 
 
 if __name__ == '__main__':
