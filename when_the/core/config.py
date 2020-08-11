@@ -5,5 +5,5 @@ env.read_env()
 
 
 with env.prefixed(""):
-    logging_level = env("LOGGING_LEVEL", "INFO")
+    logging_level = env("LOGGING_LEVEL", "DEBUG")
     app_secret_key = env("APP_SECRET_KEY", "vkjhasjkdhdsa")
