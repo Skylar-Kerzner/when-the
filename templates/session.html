@@ -4,12 +4,13 @@
     <head>
         <title>Session</title>
     </head>
-    <body>
-        <h3>No messages yet...</h3>
-        <div class="message_holder"></div>
-        <p>Hello, I've been visited {{hit_count}} times</p>
+    <body bgcolor="#0eb6cc">
+        
         <div id="like_button_container"></div>
-
+        <p>Hello, I've been visited {{hit_count}} times since my container last restarted</p>
+        <h3 style="color: #cc3a0e;">No messages yet...</h3>
+        <div class="message_holder"></div>
+        
 
         <form action="" method="POST">
             <input type="text" class="username" placeholder="User Name"/>
@@ -82,10 +83,10 @@
                     );
                 }
             }
-
             const domContainer = document.querySelector('#like_button_container');
             ReactDOM.render(e(LikeButton), domContainer);
         </script>
+
     </body>
 </html>
 
